@@ -4,6 +4,8 @@ This is a Sudoku app
 
 ## How to start game
 
+- Please note that button New game is not working because Step 1 must be implemented
+
 - Main class:
 [com.kaleyra.academy.sudoku.Sudoku.java](https://github.com/ltozi/academy/blob/55898181fe33cb7dfaa1c4f1ed7d29eef2446f49/src/main/java/com/kaleyra/academy/sudoku/Sudoku.java)
 
