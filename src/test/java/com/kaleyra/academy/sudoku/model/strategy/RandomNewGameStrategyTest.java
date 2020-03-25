@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class RandomNewGameStrategyTest {
 
-    @Test
+    @Test(timeout = 2000)
     public void shouldGenerateRandomPuzzleOK() throws SudokuException {
 
         RandomNewGameStrategy strategy = new SimpleGenerationStrategy();

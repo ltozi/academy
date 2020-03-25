@@ -91,9 +91,9 @@ public class ModelDAO {
             //tempo trascorso contenuto nel file di gioco
             long elapsed = 0;
 
-            //TODO logic to load file
+            //TODO Step 1 logic to load file
 
-            logger.fine("File " + filename + " caricato");
+            logger.info("File " + filename + " caricato");
 
             //costruisce e ritorna il modello di gioco
             return new GameModel(predefinedCells, userCells, elapsed);

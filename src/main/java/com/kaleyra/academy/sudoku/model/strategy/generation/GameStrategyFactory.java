@@ -28,7 +28,7 @@ public class GameStrategyFactory {
 //        String sudokuValidationStrategy = Preferences.getInstance().getProperty("SudokuValidationStrategy");
 
 
-        System.setProperty("com.kaleyra.academy.sudoku.model.NewGameStrategyManager.useFile", "false");
+        System.setProperty("com.kaleyra.academy.sudoku.model.NewGameStrategyManager.useFile", "true");
 
         String useFileString =
                 System.getProperty("com.kaleyra.academy.sudoku.model.NewGameStrategyManager.useFile");
