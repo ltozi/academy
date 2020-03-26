@@ -93,6 +93,19 @@ public class ModelDAO {
 
             //TODO Step 1 logic to load file
 
+            for (int i = 0; i < 2; i++){
+                br.readLine();
+            }
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.replaceAll(";", "");
+                int r = Integer.parseInt("" + line.charAt(1));
+                int c = Integer.parseInt("" + line.charAt(2));
+                int v = Integer.parseInt("" + line.charAt(3));
+                predefinedCells[r][c] = v;
+            }
+
             logger.info("File " + filename + " caricato");
 
             //costruisce e ritorna il modello di gioco

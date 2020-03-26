@@ -18,7 +18,11 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shouldBeValidRow() {
         int[][] b = new int[9][9];
+        //ARRANGE
 
+        //ACT
+
+        //ASSERT
         assertTrue(validationStrategy.isValidForRow(b, 0, 3, 2));
     }
 
