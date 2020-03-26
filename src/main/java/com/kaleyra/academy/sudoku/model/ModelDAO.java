@@ -79,7 +79,7 @@ public class ModelDAO {
 		try {
 			FileReader reader = new FileReader(filename);
 			BufferedReader br = new BufferedReader(reader);
-
+System.out.println(filename);
 			// contatore di riga utilizzato per identificare
 			// la prima, che contiene la versione
 			// int rowCount = -1;
