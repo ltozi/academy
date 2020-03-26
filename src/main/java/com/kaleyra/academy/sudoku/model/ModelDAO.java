@@ -86,7 +86,7 @@ public class ModelDAO {
 
             //contatore di riga utilizzato per identificare
             //la prima, che contiene la versione
-            int rowCount = -1;
+            //int rowCount = -1;
 
             //tempo trascorso contenuto nel file di gioco
             long elapsed = 0;
@@ -94,9 +94,10 @@ public class ModelDAO {
             //TODO Step 1 logic to load file
 
             StringBuilder contentBuilder = new StringBuilder();
-            try
-            {
+
                 String sCurrentLine;
+                br.readLine();
+                br.readLine();
                 while ((sCurrentLine = br.readLine()) != null)
                 {
                     String[] args = sCurrentLine.split(";");
@@ -106,11 +107,7 @@ public class ModelDAO {
                     predefinedCells[i][j] = value;
                     contentBuilder.append(sCurrentLine).append("\n");
                 }
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+
             System.out.println("Content in File:::"+contentBuilder.toString());
 
             logger.info("File " + filename + " caricato");
