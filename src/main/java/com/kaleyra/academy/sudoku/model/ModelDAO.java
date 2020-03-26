@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -93,22 +95,18 @@ public class ModelDAO {
 
             //TODO Step 1 logic to load file
 
-            StringBuilder contentBuilder = new StringBuilder();
+            String content = new String ( Files.readAllBytes( Paths.get(filename) ) );
+            String lines[] = content.split("\\r?\\n");
+            System.out.println("Content in File Line 2:::"+lines[2]);
+            for(int k=2;k<lines.length;k++){
+                String[] args = lines[k].split(";");
+                int i = Integer.parseInt(args[1]);
+                int j = Integer.parseInt(args[2]);
+                int value = Integer.parseInt(args[3]);
+                predefinedCells[i][j] = value;
+            }
+            System.out.println("Content in File:::"+content);
 
-                String sCurrentLine;
-                br.readLine();
-                br.readLine();
-                while ((sCurrentLine = br.readLine()) != null)
-                {
-                    String[] args = sCurrentLine.split(";");
-                    int i = Integer.parseInt(args[1]);
-                    int j = Integer.parseInt(args[2]);
-                    int value = Integer.parseInt(args[3]);
-                    predefinedCells[i][j] = value;
-                    contentBuilder.append(sCurrentLine).append("\n");
-                }
-
-            System.out.println("Content in File:::"+contentBuilder.toString());
 
             logger.info("File " + filename + " caricato");
 
