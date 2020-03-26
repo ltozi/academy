@@ -114,18 +114,19 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
     public boolean isValidModel(int[][] model) {
 
         boolean ret = false;
-        boolean invalid = false;
-
-        if(model.length >= 8 && model != null && !invalid)
-            ret = true;
+        int dirty = 0;
 
         for(int i = 0; i < 9; i++)
             for(int j = 0; j < 9; j++)
-                if(model[i][j] < 0 || model[i][j] > 8)
+                if(model[i][j] < 0 || model[i][j] > 9)
                 {
                     ret = false;
-                    invalid = true;
+                    dirty = model[i][j];
                 }
+
+        if((model.length < 9 || model != null) && dirty == 0)
+            ret = true;
+
         return ret;
     }
 }

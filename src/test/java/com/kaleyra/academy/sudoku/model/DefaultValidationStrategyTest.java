@@ -33,6 +33,7 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shouldGiveErrorBecauseValueAlreadyInsideRow() {
         int[][] b = new int[9][9];
+        b[0][3] = 9;
 
         assertFalse(validationStrategy.isValidForRow(b, 0,  3, 9));
     }
@@ -127,10 +128,10 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shouldGiveErrorBecauseAWrongValueExists() {
 
-        int[][] bytes = generateFullValidModel();
+        int[][] model = generateFullValidModel();
 
-        bytes[1][1] = 9; //Dirty value
+        model[1][1] = 10; //Dirty value
 
-        assertFalse(validationStrategy.isValidModel(bytes));
+        assertFalse(validationStrategy.isValidModel(model));
     }
 }
