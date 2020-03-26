@@ -100,10 +100,10 @@ public class ModelDAO {
             System.out.println("Content in File Line 2:::"+lines[2]);
             for(int k=2;k<lines.length;k++){
                 String[] args = lines[k].split(";");
-                int i = Integer.parseInt(args[1]);
-                int j = Integer.parseInt(args[2]);
+                int row = Integer.parseInt(args[1]);
+                int column = Integer.parseInt(args[2]);
                 int value = Integer.parseInt(args[3]);
-                predefinedCells[i][j] = value;
+                predefinedCells[row][column] = value;
             }
             System.out.println("Content in File:::"+content);
 
