@@ -7,6 +7,8 @@ import com.kaleyra.academy.sudoku.model.strategy.generation.impl.SimpleGeneratio
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 public class RandomNewGameStrategyTest {
 
     @Test(timeout = 2000)
@@ -17,6 +19,4 @@ public class RandomNewGameStrategyTest {
 
         System.out.println(model.toString());
     }
-
-
 }

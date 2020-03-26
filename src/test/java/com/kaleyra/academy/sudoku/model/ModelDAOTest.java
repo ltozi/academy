@@ -21,8 +21,6 @@ public class ModelDAOTest {
 
         Scanner sc = new Scanner(new File(fileName));
 
-
-
         sc.next();
         sc.next();
         String str = " ";
@@ -37,19 +35,8 @@ public class ModelDAOTest {
             System.out.print(column);
             System.out.println(value);
 
+            if(!sc.hasNextLine())
+                assertTrue(row == 8 && column == 6 && value == 9);  //ultima riga del file
         }
-
-       // System.out.println(a[0]);
-       // System.out.println(a[1]);
-       // System.out.println(a[2]);
-       // System.out.println(a[3]);
-
-        //System.out.println(row);
-        //System.out.println(column);
-        //System.out.println(value);
-
-
-        int[][] predefinedCells =
-                new int[GameModel.ROWS][GameModel.COLS];
     }
 }
