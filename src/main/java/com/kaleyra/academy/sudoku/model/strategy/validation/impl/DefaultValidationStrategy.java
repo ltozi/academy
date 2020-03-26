@@ -30,14 +30,27 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
     public boolean isValidForRow(int[][] matrix, int rowForValue, int colForValue, int value) {
         //TODO
-        return false;
+        if(value == 0)
+            value = -1;
+
+        for(int i = 0; i < 9; i++) {
+            if(matrix[i][colForValue] == value)
+                return false;
+        }
+        return true;
     }
-
-
 
     public boolean isValidForColumn(int[][] matrix, int rowForValue, int colForValue, int value) {
         //TODO
-        return false;
+        /*
+        for(int i = 0; i < 9; i++) {
+            if(matrix[rowForValue][i] == value)
+                return false;
+        }
+        return true;    */
+
+        matrix[rowForValue][colForValue] = value;
+        return true;
     }
 
     public boolean isValidModel(int[][] model) {

@@ -5,12 +5,11 @@ package com.kaleyra.academy.sudoku.model;
 
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
+
 
 /**
  * Oggetto di accesso ai dati, raccoglie le funzionalità
@@ -92,8 +91,22 @@ public class ModelDAO {
             long elapsed = 0;
 
             //TODO Step 1 logic to load file
+            Scanner sc = new Scanner(new File(filename));
 
-            logger.info("File " + filename + " caricato");
+            sc.next(); sc.next();
+            String str = " ";
+            while(sc.hasNextLine())
+            {
+                str = sc.next();
+
+                String a[] = str.split(";", 4);
+                int row = Integer.parseInt(a[1]); int column = Integer.parseInt(a[2]); int value = Integer.parseInt(a[3]);
+
+                predefinedCells[row][column] = value;
+            }
+
+
+        logger.info("File " + filename + " caricato");
 
             //costruisce e ritorna il modello di gioco
             return new GameModel(predefinedCells, userCells, elapsed);
