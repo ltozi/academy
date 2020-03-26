@@ -9,7 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -92,6 +93,12 @@ public class ModelDAO {
             long elapsed = 0;
 
             //TODO Step 1 logic to load file
+            List<String> lines = new ArrayList<String>();
+            String line = null;
+            while ((line = br.readLine()) != null)
+                lines.add(line);
+            br.close();
+            predefinedCells = loadGameFromStringArray(lines.toArray(new String[lines.size()]));
 
             logger.info("File " + filename + " caricato");
 
@@ -102,6 +109,22 @@ public class ModelDAO {
             throw new SudokuException("Impossibile caricare il gioco " +
                     filename, e);
         }
+    }
+
+    /**
+     * Carica l'array d'interi della sudoku table da un array di strings. Quest'ultimo
+     * avrà come elementi le righe di un file input valido per il gioco
+     *
+     * @param stringArrayInput
+     */
+    public int[][] loadGameFromStringArray(String[] stringArrayInput) {
+        int[][] result = new int[GameModel.ROWS][GameModel.COLS];
+        String[] strArray;
+        for (int i = 2; i < stringArrayInput.length; i++) {
+            strArray = stringArrayInput[i].split(";");
+            result[Integer.parseInt(strArray[1])][Integer.parseInt(strArray[2])] = Integer.parseInt(strArray[3]);
+        }
+        return result;
     }
 
     /**

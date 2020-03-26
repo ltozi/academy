@@ -25,18 +25,15 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shoudlLetPlaceZeroValueAsNoValue() {
         int[][] b = new int[9][9];
-
         assertTrue(validationStrategy.isValidForRow(b, 0, 3, 0));
-
     }
 
     @Test
     public void shouldGiveErrorBecauseValueAlreadyInsideRow() {
         int[][] b = new int[9][9];
-
+        b[0] = new int[]{0, 0, 0, 0, 0, 0, 9, 0, 0};
         assertFalse(validationStrategy.isValidForRow(b, 0,  3, 9));
     }
-
 
 
     @Test
@@ -49,22 +46,22 @@ public class DefaultValidationStrategyTest {
 
         b[row][col] = 9;
 
-
         assertTrue(validationStrategy.isValidForColumn(b, row, col, value));
     }
 
     @Test
-    public void shoudGiveError() {
+    //public void shoudGiveError() {
+    public void shouldValidateFalse() {
         int[][] b = new int[9][9];
-        b[0][0] = 1; b[0][1] = 2;  b[0][2] = 3;
+        b[0][0] = 9; b[0][1] = 2;  b[0][2] = 3;
         b[1][0] = 4; b[1][1] = 5;  b[1][2] = 6;
-        b[2][0] = 7; b[2][1] = 8;  b[2][2] = 9;
+        b[2][0] = 7; b[2][1] = 8;  b[2][2] = 1;
 
         Integer row = 2;
         Integer col = 0;
         Integer value = 9;
 
-        assertTrue(validationStrategy.isValidForColumn(b, row, col, value));
+        assertFalse(validationStrategy.isValidForColumn(b, row, col, value));
     }
 
 
@@ -77,7 +74,7 @@ public class DefaultValidationStrategyTest {
         Integer value = 4;  //still not present in quadrant and should be valid
         //                                      | quadrant is here                    |
         b[0][0] = 3; b[0][1] = 4;  b[0][2] = 8; b[0][3] = 5; b[0][4] = 2;  b[0][5] = 7; b[0][6] = 1; b[0][7] = 6;  b[0][8] = 9;
-        b[1][0] = 9; b[1][1] = 6;  b[1][2] = 2; b[1][3] = 1; b[1][4] = value;
+        b[1][0] = 9; b[1][1] = 6;  b[1][2] = 2; b[1][3] = 1; b[1][4] = 4;
         //                                      |_____________________________________|
 
         assertTrue(validationStrategy.isValidForQuadrant(b, row, col, value));
@@ -133,4 +130,64 @@ public class DefaultValidationStrategyTest {
 
         assertFalse(validationStrategy.isValidModel(bytes));
     }
+
+    @Test
+    public void hasUniqueElementsArrTestTrue(){
+        int[] arr = new int[]{1,2,0,4,6,0,8,9};
+        assertTrue(validationStrategy.hasUniqueElementsArr(arr,0));
+    }
+    @Test
+    public void hasUniqueElementsArrTestFalse(){
+        int[] arr = new int[]{1,2,0,4,2,6,0,8,9};
+        assertFalse(validationStrategy.hasUniqueElementsArr(arr,0));
+    }
+
+    //hasUniqueElementsMatrix
+    @Test
+    public void hasUniqueElementsMatrixTestTrue(){
+        int[][] matrix = new int[][]{{1,0,3},{4,5,0},{7,8,9}};
+        assertTrue(validationStrategy.hasUniqueElementsMatrix(matrix,0));
+    }
+    @Test
+    public void hasUniqueElementsMatrixTestFalse(){
+        int[][] matrix = new int[][]{{1,0,3},{4,5,0},{7,3,9}};
+        assertFalse(validationStrategy.hasUniqueElementsMatrix(matrix,0));
+    }
+
+    //getQuadrantMatrix
+    @Test
+    public void getQuadrantMatrixTest(){
+        int[][] matrix ={{0,0,8,0,0,7,1,6,9},
+                         {9,6,0,0,0,8,7,0,0},
+                         {5,1,7,0,6,0,2,0,0},
+                         {0,0,0,3,5,0,0,0,0},
+                         {0,0,4,0,1,0,3,0,0},
+                         {0,0,0,0,9,2,0,0,0},
+                         {0,0,6,0,3,0,5,8,7},
+                         {0,0,3,6,0,0,0,1,2},
+                         {8,2,1,4,0,0,9,0,0}};
+
+        int[][] matrix00 = new int[][]{{0,0,8},
+                                        {9,6,0},
+                                        {5,1,7}};
+        int[][] matrix12 = new int[][]{{0,0,0},
+                                        {3,0,0},
+                                        {0,0,0}};
+        assertArrayEquals(matrix00, validationStrategy.getQuadrantMatrix(matrix,0,0));
+        assertArrayEquals(matrix12, validationStrategy.getQuadrantMatrix(matrix,1,2));
+    }
+
+    @Test
+    public void getRowTest(){
+        int[][] matrix = new int[][]{{1,2,3,45},{4,5,6,21},{7,8,9,39}};
+        int[] row = new int[]{4,5,6,21};
+        assertArrayEquals(row,validationStrategy.getRow(matrix,1));
+    }
+    @Test
+    public void getColumnTest(){
+        int[][] matrix = new int[][]{{1,2,3},{4,5,6},{7,8,9},{42,5,6}};
+        int[] row = new int[]{1,4,7,42};
+        assertArrayEquals(row,validationStrategy.getColumn(matrix,0));
+    }
+
 }
