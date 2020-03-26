@@ -86,12 +86,23 @@ public class ModelDAO {
 
             //contatore di riga utilizzato per identificare
             //la prima, che contiene la versione
-            int rowCount = -1;
+            //int rowCount = -1;
 
             //tempo trascorso contenuto nel file di gioco
             long elapsed = 0;
 
-            //TODO Step 1 logic to load file
+            //Step 1 logic to load file
+            String line;
+            br.readLine();
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] args = line.split(";");
+                int i = Integer.parseInt(args[1]);
+                int j = Integer.parseInt(args[2]);
+                int value = Integer.parseInt(args[3]);
+                
+                predefinedCells[i][j] = value;
+            }
 
             logger.info("File " + filename + " caricato");
 
