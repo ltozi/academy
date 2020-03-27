@@ -200,12 +200,12 @@ public class GameController  implements SudokuEventPublisher {
         //crea il comando di inserimento del valore
         AbstractCommand command = CommandFactory.createInsertValue(row, col, value);
 
-        if(Preferences.getInstance().getPropertyAsBool(Preferences.SHOW_ERRORS)) {
+        //if(Preferences.getInstance().getPropertyAsBool(Preferences.SHOW_ERRORS)) {
             if(!validationStrategy.isValidMove(model.getData(), row, col, value)) {
                 Utils.showAlert("Il valore " + value + " non è valido per questa cella!");
                 return;
             }
-        }
+        //}
 
         //invoca il comando
         CommandManager.getInstance().invokeCommand(command);

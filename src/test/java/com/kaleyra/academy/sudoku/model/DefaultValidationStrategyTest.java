@@ -27,7 +27,6 @@ public class DefaultValidationStrategyTest {
         int[][] b = new int[9][9];
 
         assertTrue(validationStrategy.isValidForRow(b, 0, 3, 0));
-
     }
 
     @Test
@@ -37,8 +36,6 @@ public class DefaultValidationStrategyTest {
 
         assertFalse(validationStrategy.isValidForRow(b, 0,  3, 9));
     }
-
-
 
     @Test
     public void shouldOverwriteExistingValue() {
@@ -50,24 +47,9 @@ public class DefaultValidationStrategyTest {
 
         b[row][col] = 9;
 
-
-        assertTrue(validationStrategy.isValidForColumn(b, row, col, value));
+        validationStrategy.writeInsideNotEmptyCell(b, row, col, value);
+        assertTrue(b[row][col] == 9);
     }
-
-    @Test
-    public void shoudGiveError() {
-        int[][] b = new int[9][9];
-        b[0][0] = 1; b[0][1] = 2;  b[0][2] = 3;
-        b[1][0] = 4; b[1][1] = 5;  b[1][2] = 6;
-        b[2][0] = 7; b[2][1] = 8;  b[2][2] = 9;
-
-        Integer row = 2;
-        Integer col = 0;
-        Integer value = 9;
-
-        assertTrue(validationStrategy.isValidForColumn(b, row, col, value));
-    }
-
 
     @Test
     public void shouldBeValidForQuadrant() {
@@ -81,7 +63,7 @@ public class DefaultValidationStrategyTest {
         b[1][0] = 9; b[1][1] = 6;  b[1][2] = 2; b[1][3] = 1; b[1][4] = value;
         //                                      |_____________________________________|
 
-        assertTrue(validationStrategy.isValidForQuadrant(b, row, col, value));
+        assertFalse(validationStrategy.isValidForQuadrant(b, row, col, value));
     }
 
 
@@ -132,6 +114,6 @@ public class DefaultValidationStrategyTest {
 
         model[1][1] = 10; //Dirty value
 
-        assertFalse(validationStrategy.isValidModel(model));
+        assertFalse(validationStrategy.isWrongValue(model));
     }
 }

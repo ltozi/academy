@@ -24,7 +24,6 @@ public class GameStrategyFactory {
      */
     public static NewGameStrategy getStrategy() {
         NewGameStrategy result = null;
-
 //        String sudokuValidationStrategy = Preferences.getInstance().getProperty("SudokuValidationStrategy");
 
 

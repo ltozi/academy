@@ -70,8 +70,6 @@ public class Sudoku {
                         controller.newGame();
                     }
                 });
-
-
     }
 
     /**

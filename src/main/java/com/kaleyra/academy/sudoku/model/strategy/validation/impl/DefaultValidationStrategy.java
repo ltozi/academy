@@ -7,7 +7,14 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
     @Override
     public boolean isValidMove(int[][] model, int row, int col, int value) {
-        return false;
+        boolean ret = true;
+
+        ret = isValidForQuadrant(model, row, col, value);
+
+        if(!isValidForRow(model, row, col, value))
+            ret = false;
+
+        return ret;
     }
 
     /**
@@ -22,66 +29,36 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
      * @param value
      * @return
      */
+
     public boolean isValidForQuadrant(int[][] matrix, int rowForValue, int colForValue, int value) {
         //TODO
         int x = 0;
         int y = 0;
+        boolean ret = true;
 
-        if(rowForValue < 3 && colForValue < 3)
-        {
+        if(rowForValue < 3)
             x = 0;
-            y = 0;
-        }
-        else if(rowForValue < 3 && colForValue > 2 && colForValue < 6)
-        {
-            x = 0;
-            y = 3;
-        }
-        else if(rowForValue < 3 && colForValue > 5)
-        {
-            x = 0;
-            y = 6;
-        }
-        else if(rowForValue < 6 && rowForValue > 2 && colForValue < 3)
-        {
+        else if(rowForValue >= 3 && rowForValue < 6)
             x = 3;
-            y = 0;
-        }
-        else if(rowForValue < 6 && rowForValue > 2 && colForValue > 2 && colForValue < 6)
-        {
-            x = 3;
-            y = 3;
-        }
-        else if(rowForValue < 6 && rowForValue > 2 && colForValue > 5)
-        {
-            x = 3;
-            y = 6;
-        }
-        else if(rowForValue > 6 && colForValue < 3)
-        {
+        else if(rowForValue >= 6)
             x = 6;
-            y = 0;
-        }
-        else if(rowForValue > 5 && colForValue > 2 && colForValue < 6)
-        {
-            x = 6;
-            y = 3;
-        }
-        else if(rowForValue > 5 && colForValue > 5)
-        {
-            x = 6;
-            y = 6;
-        }
 
-        for(int i = x; i < x + 2; i++)
-            for(int j = y; j < y + 2; j++)
+        if(colForValue < 3)
+            y = 0;
+        else if(colForValue >= 3 && colForValue < 6)
+            y = 3;
+        else if(colForValue >= 6)
+            y = 6;
+
+
+        for(int i = x; i < x + 3; i++)
+            for(int j = y; j < y + 3; j++)
                 if(matrix[i][j] == value)
                 {
-                    //System.out.println("entrato con: " + matrix[i][j]);
-                    return true;
+                    ret = false;
                 }
 
-        return false;
+        return ret;
     }
 
 
@@ -100,33 +77,44 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
     public boolean isValidForColumn(int[][] matrix, int rowForValue, int colForValue, int value) {
         //TODO
-        /*
+        boolean ret = true;
+
         for(int i = 0; i < 9; i++) {
             if(matrix[rowForValue][i] == value)
-                return false;
+                ret = false;
         }
-        return true;    */
 
-        matrix[rowForValue][colForValue] = value;
-        return true;
+        return ret;
     }
 
     public boolean isValidModel(int[][] model) {
 
-        boolean ret = false;
-        int dirty = 0;
+        boolean ret = true;
 
         for(int i = 0; i < 9; i++)
             for(int j = 0; j < 9; j++)
-                if(model[i][j] < 0 || model[i][j] > 9)
+                if(model[i][j] == 0)
                 {
                     ret = false;
-                    dirty = model[i][j];
                 }
 
-        if((model.length < 9 || model != null) && dirty == 0)
-            ret = true;
-
         return ret;
+    }
+
+    public boolean isWrongValue(int[][] model) {
+
+        boolean ret = true;
+
+        for(int i = 0; i < 9; i++)
+            for(int j = 0; j < 9; j++)
+                if(model[i][j] > 9 || model[i][j] < 0)
+                {
+                    ret = false;
+                }
+        return  ret;
+    }
+
+    public void writeInsideNotEmptyCell(int[][] matrix, int rowForValue, int colForValue, int value) {
+        matrix[rowForValue][colForValue] = value;
     }
 }
