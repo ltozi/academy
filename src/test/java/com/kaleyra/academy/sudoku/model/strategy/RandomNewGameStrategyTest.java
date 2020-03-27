@@ -14,7 +14,6 @@ public class RandomNewGameStrategyTest {
 
         RandomNewGameStrategy strategy = new SimpleGenerationStrategy();
         GameModel model = strategy.createModel();
-
         System.out.println(model.toString());
     }
 

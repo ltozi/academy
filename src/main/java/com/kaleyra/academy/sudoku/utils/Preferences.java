@@ -108,12 +108,9 @@ public class Preferences {
 
     private void load() {
         try {
-        	System.out.println(getFilename());
             FileInputStream fos = new FileInputStream(getFilename());
             properties.load(fos);
-       	 System.out.println("Custom file loaded");
         } catch (FileNotFoundException e) {
-        	 System.out.println("Custom file settings not found");
             //se il file non è stato trovato, salva quello di
             //default (vuoto)
             save();
@@ -124,7 +121,6 @@ public class Preferences {
 
     private String getFilename() {
         String path = System.getProperty("user.home");
-
         if(path == null || path.isEmpty())
             return PROPERTIES_FILE_NAME;
 

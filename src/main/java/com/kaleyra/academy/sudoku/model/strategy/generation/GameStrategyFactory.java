@@ -27,24 +27,20 @@ public class GameStrategyFactory {
 	 * @return strategia di creazione nuovo gioco
 	 */
 	public static NewGameStrategy getStrategy() {
-		//NewGameStrategy result = null;
 
-//        String sudokuValidationStrategy = Preferences.getInstance().getProperty("SudokuValidationStrategy");
-	
-		//System.setProperty("com.kaleyra.academy.sudoku.model.NewGameStrategyManager.useFile", "true");
-
-		//String useFileString = System.getProperty("com.kaleyra.academy.sudoku.model.NewGameStrategyManager.useFile");
-
-		String gameStrategy = Preferences.getInstance().getProperty("NewGameStrategy");
+		String gameStrategy = "";
+		String useFileString = System.getProperty("com.kaleyra.academy.sudoku.model.NewGameStrategyManager.useFile");
+		if ("true".equals(useFileString))
+			gameStrategy = Preferences.getInstance().getProperty("NewGameStrategy");
 		System.out.println(gameStrategy);
 
-		switch(gameStrategy) {
-		case "random": return new SimpleGenerationStrategy();
-		default : return new PlainFileNewGameStrategy();
+		switch (gameStrategy) {
+		case "random":
+			return new SimpleGenerationStrategy();
+		default:
+			return new PlainFileNewGameStrategy();
 		}
-		
-		
-	}
 
+	}
 
 }
