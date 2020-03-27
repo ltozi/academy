@@ -6,7 +6,13 @@ import com.kaleyra.academy.sudoku.model.strategy.generation.impl.SimpleGeneratio
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class RandomNewGameStrategyTest {
 
@@ -33,6 +39,20 @@ public class RandomNewGameStrategyTest {
 			}
 		}
 		return countAllEmpty;
+	}
+
+	@Test
+	public void testGenerateRandomValue() {
+		SimpleGenerationStrategy sgs = new SimpleGenerationStrategy();
+		Set<Integer> set = sgs.allowedValues();
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < 9; i++)
+			list.add(sgs.generateRandomValue(set));
+		
+		assertEquals(0, set.size());
+		assertEquals(9, list.size());
+		for (int i = 1; i <= 9; i++)
+			assertTrue(list.contains(i));
 	}
 
 }
