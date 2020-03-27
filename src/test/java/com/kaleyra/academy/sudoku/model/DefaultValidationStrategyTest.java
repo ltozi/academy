@@ -144,4 +144,30 @@ public class DefaultValidationStrategyTest {
 
         assertFalse(validationStrategy.isValidModel(bytes));
     }
+
+    @Test
+    public void shouldGenerateSubMatrix () {
+        int[][] b = generateFullValidModel();
+
+        for (int y = 0; y < 7; y += 3) {
+            for (int x = 0; x < 7; x += 3) {
+                int[][] subMatrix = new int[3][3];
+                for (int k = 0; k < 3; k++) {
+                    for (int l = 0; l < 3; l++) {
+                        subMatrix[k][l] = b[y + k][x + l];
+                    }
+                }
+                for (int k = 0; k < subMatrix.length; k++) {
+                    for (int z = 0; z < subMatrix.length; z++) {
+                        System.out.print(subMatrix[k][z]);
+                    }
+                    System.out.println();
+                }
+                System.out.println("---");
+            }
+        }
+
+
+    }
+
 }
