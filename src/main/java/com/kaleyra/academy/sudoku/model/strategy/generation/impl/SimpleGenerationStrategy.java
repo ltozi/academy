@@ -10,19 +10,18 @@ public class SimpleGenerationStrategy extends RandomNewGameStrategy {
     @Override
     public GameModel setGameDifficulty(GameModel model) {
 
-        String property = "";
+        String property = " ";
         Random random = new Random();
         int[][] data = model.getData();
         int DIFFICULTY_LEVEL = 0;
 
         //scrive la proprietà
-        System.setProperty("com.kaleyra.academy.sudoku.model.ChangeGameDifficultyManager.useFile", "easy/medium/hard");
+        System.setProperty("com.kaleyra.academy.sudoku.model.ChangeGameDifficultyManagerEasy.useFile", "easy");
+        System.setProperty("com.kaleyra.academy.sudoku.model.ChangeGameDifficultyManagerMedium.useFile", "medium");
+        System.setProperty("com.kaleyra.academy.sudoku.model.ChangeGameDifficultyManagerHard.useFile", "hard");
 
         //legge la proprietà
-        String a[] = System.getProperty("com.kaleyra.academy.sudoku.model.ChangeGameDifficultyManager.useFile").split
-                ("/", 3);
-
-        property = a[2];
+        property = System.getProperty("com.kaleyra.academy.sudoku.model.ChangeGameDifficultyManagerHard.useFile");
 
         switch (property) {
             case "hard":
