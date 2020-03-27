@@ -120,7 +120,7 @@ public class Preferences {
     }
 
     private String getFilename() {
-        String path = OSUtils.getInstance().getStrategy().getPropertiesPath();
+        String path = System.getProperty("user.home");
 
         if(path== null || path.isEmpty())
             return PROPERTIES_FILE_NAME;
