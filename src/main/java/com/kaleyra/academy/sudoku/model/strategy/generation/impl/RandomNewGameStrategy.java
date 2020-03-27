@@ -10,7 +10,6 @@ import com.kaleyra.academy.sudoku.model.strategy.validation.impl.DefaultValidati
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -25,29 +24,24 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      *
      * @return un gioco generato casualmente
      */
-    public GameModel createModel() throws SudokuException {
+    public GameModel createModel() throws SudokuException { //non toccare camilo
         GameModel gameModel = new GameModel();
 
         int[][] matrix = gameModel.getData();
 
-        for (int row = 0; row < matrix.length; row++)
-        {
+        for (int row = 0; row < matrix.length; row++) {
             Set<Integer> alreadyUsedValues = new HashSet<>(); //Empty
-            for (Integer col = 0; col < matrix[row].length; col++)
-            {
-                CellValueFinder valueFinder = new CellValueFinder(matrix, row, col, alreadyUsedValues)
-                        .build();
+            for (Integer col = 0; col < matrix[row].length; col++) {
+                CellValueFinder valueFinder = new CellValueFinder(matrix, row, col, alreadyUsedValues).build();
                 row = valueFinder.row;
                 col = valueFinder.col;
                 matrix[row][col] = valueFinder.random;
             }
         }
 
-        if( ! validationStrategy.isValidModel(matrix)) {
+        if (!validationStrategy.isValidModel(matrix)) {
             throw new SudokuException("Wrong random model generation: " + "\n" + gameModel.toString());
         }
-
-
         return setGameDifficulty(gameModel);
     }
 
@@ -59,19 +53,22 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
     public abstract GameModel setGameDifficulty(final GameModel model);
 
     /**
-     *
      * @return a Set with all the number available
      */
+
+    // do camlilo
+    // queli da cui estrarreil random value
     public Set<Integer> allowedValues() {
         return new HashSet<>(); //TODO logic
     }
 
     /**
      * @param allowedNumbers is decreased in size on each extraction
-     *
      * @return a Set with all the number available
      */
-    public Integer generateRandomValue(Set<Integer> allowedNumbers) {
+
+    // do camilo
+    public Integer generateRandomValue(Set<Integer> allowedNumbers) { //argument from Set<Integer> allowedValues()
         return 0;
     }
 
@@ -97,7 +94,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
             do {
                 random = generateRandomValue(allowedNumbers);
 
-                if(random == null) {//This happens because elements are escaped
+                if (random == null) {//This happens because elements are escaped
                     allowedNumbers = allowedValues();
 
                     goBackOneCell();
@@ -107,20 +104,20 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
                     matrix[row][col] = 0;//
                     random = generateRandomValue(allowedNumbers); //Generate
 
-                    if(random == null) {
+                    if (random == null) {
                         allowedNumbers = allowedValues();
                         alreadyUsedValues.removeAll(allowedNumbers); //Try again every number
                         random = generateRandomValue(allowedNumbers);
                     }
                 }
             }
-            while (! validationStrategy.isValidMove(matrix, row, col, random));
+            while (!validationStrategy.isValidMove(matrix, row, col, random));
 
             return this;
         }
 
         private void goBackOneCell() {
-            if(col > 0)
+            if (col > 0)
                 col--;
             else {
                 row--;
@@ -128,4 +125,8 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
             }
         }
     }
+
+
+
+
 }

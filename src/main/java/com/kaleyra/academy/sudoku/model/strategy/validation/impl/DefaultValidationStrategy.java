@@ -11,7 +11,7 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
     @Override
     public boolean isValidMove(int[][] model, int row, int col, int value) {
-        return false;
+        return  isValidForRow(model,row,col,value) && isValidForColumn(model,row,col,value) && isValidForQuadrant(model,row,col,value);
     }
 
     /**
@@ -63,7 +63,7 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
     public boolean isValidForRow(int[][] matrix, int rowForValue, int colForValue, int value) {
         //TODO
         int[] row = matrix[rowForValue];
-        // It is possible to overwritte a cell with a rules compliant value.
+        // It is possible to overwrite a cell with a rules compliant-value.
         // if ( row[colForValue] != 0 ) // 0 stands for empty cell
          //   return false;
         if (value == 0)
@@ -124,8 +124,10 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
     }
 
     public int[] getRow(int[][] matrix, int i){
+
         return matrix[i];
     }
+
     public int[] getColumn(int[][] matrix, int j){
         int[] column  = new int[matrix.length];
         for (int i=0; i< column.length; i++)
@@ -134,32 +136,45 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
     }
 
+    public int sum(int[] arr){
+        int sum = 0;
+        for(int i = 0; i<arr.length; i++)
+            sum+=arr[i];
+        return sum;
+    }
+    public int sum(int[][] matrix){
+        int sum = 0;
+        for(int i = 0; i<matrix.length; i++)
+            sum+=sum(matrix[i]);
+        return sum;
+    }
+
     public boolean isValidModel(int[][] model) {
         //TODO
         int i,j;
         int[] row;
         int[] col;
         int[][] quadrantMatrix;
+
         //check rows
         for (i=0; i< model.length; i++){
             row = getRow(model,i);
-            if (!hasUniqueElementsArr(row,0))
+            if (!hasUniqueElementsArr(row,0) || sum(row)!= 45 )
                 return false;
         }
         for (j=0; j< model[0].length; j++){
             col = getColumn(model,j);
-            if (!hasUniqueElementsArr(col,0))
+            if (!hasUniqueElementsArr(col,0)  || sum(col)!= 45)
                 return false;
         }
 
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {
                 quadrantMatrix = getQuadrantMatrix(model, i, j);
-                if (!hasUniqueElementsMatrix(quadrantMatrix,0))
+                if (!hasUniqueElementsMatrix(quadrantMatrix,0) || sum(quadrantMatrix)!= 45 )
                     return false;
             }
         }
-
 
        return true;
     }

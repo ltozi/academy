@@ -24,4 +24,8 @@ public class SimpleGenerationStrategy extends RandomNewGameStrategy {
 
         return model;
     }
+
+
+
+
 }

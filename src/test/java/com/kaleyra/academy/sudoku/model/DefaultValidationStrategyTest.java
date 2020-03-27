@@ -190,4 +190,15 @@ public class DefaultValidationStrategyTest {
         assertArrayEquals(row,validationStrategy.getColumn(matrix,0));
     }
 
+    @Test
+    public void sumArrayTest(){
+        int[] arr = new int[]{1,2,3};
+        assertEquals(6,validationStrategy.sum(arr));
+    }
+    @Test
+    public void sumArrayMatrix(){
+        int[][] matrix = new int[][]{{12,2,3},{4,5,6},{7,8,9}};
+        assertEquals(56,validationStrategy.sum(matrix));
+    }
+
 }
