@@ -19,7 +19,6 @@ public class RandomNewGameStrategyTest {
         int countAllEmpty = isModelEmpty(model);
         System.out.println(model.toString());
 
-
         assertNotEquals("Random generation not working because all values results empty (0 values)",
                 GameModel.ROWS * GameModel.COLS, countAllEmpty);
     }

@@ -72,6 +72,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Integer generateRandomValue(Set<Integer> allowedNumbers) {
+
         return 0;
     }
 
