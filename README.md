@@ -41,6 +41,19 @@ This is a Sudoku app
     
 - ### Step 3 (bonus)
     Find a way to switch game generation strategy with a config file 
+    
+- ### Step 4 (bonus)
+    A new requirement exists: Changing the game difficulty for the random generated model. This
+    is now set by default set to MEDIUM in the class below.
+    
+    [SimpleGenerationStrategy.java](https://github.com/ltozi/academy/blob/55898181fe33cb7dfaa1c4f1ed7d29eef2446f49/src/main/java/com/kaleyra/academy/sudoku/model/strategy/generation/impl/SimpleGenerationStrategy.java#L18)
+    
+    Note: For the sake of simplicity, game difficulty is supposed to change with the number of 
+    hidden cells inside sudoku board. 
+    For example, a game is considered easy when the number of predefined cells are is high.  
+    
+    Try to refactor this code to switch game difficulty from a property set inside file that
+    can have three values: EASY, MEDIUM, HARD
 
 ## Documentation
 
