@@ -122,6 +122,7 @@ public class Preferences {
     private String getFilename() {
         String path = System.getProperty("user.home");
         if(path == null || path.isEmpty())
+       
             return PROPERTIES_FILE_NAME;
 
         return path + File.separator + PROPERTIES_FILE_NAME;

@@ -40,7 +40,5 @@ public class GameStrategyFactory {
 		default:
 			return new PlainFileNewGameStrategy();
 		}
-
 	}
-
 }
