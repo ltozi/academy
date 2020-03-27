@@ -14,6 +14,9 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
         if(!isValidForRow(model, row, col, value))
             ret = false;
 
+        if(!isValidForColumn(model, row, col, value))
+            ret = false;
+
         return ret;
     }
 
