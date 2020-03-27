@@ -19,7 +19,7 @@ public class DefaultValidationStrategyTest {
     public void shouldBeValidRow() {
         int[][] b = new int[9][9];
         //ARRANGE
-
+        b[0][0] = 1; b[0][1] = 4;  b[0][2] = 3; b[0][4] = 5; b[0][5] = 6;  b[0][6] = 7; b[0][7] = 8; b[0][8] = 9;
         //ACT
 
         //ASSERT
@@ -29,15 +29,22 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shoudlLetPlaceZeroValueAsNoValue() {
         int[][] b = new int[9][9];
+        //ARRANGE
+        b[0][0] = 1; b[0][1] = 4;  b[0][2] = 3; b[0][4] = 5; b[0][5] = 6;  b[0][6] = 7; b[0][7] = 8; b[0][8] = 9;
+        //ACT
 
+        //ASSERT
         assertTrue(validationStrategy.isValidForRow(b, 0, 3, 0));
-
     }
 
     @Test
     public void shouldGiveErrorBecauseValueAlreadyInsideRow() {
         int[][] b = new int[9][9];
+        //ARRANGE
+        b[0][0] = 1; b[0][1] = 4;  b[0][2] = 3; b[0][4] = 5; b[0][5] = 6;  b[0][6] = 7; b[0][7] = 8; b[0][8] = 9;
+        //ACT
 
+        //ASSERT
         assertFalse(validationStrategy.isValidForRow(b, 0,  3, 9));
     }
 
@@ -77,11 +84,11 @@ public class DefaultValidationStrategyTest {
         int[][] b = new int[9][9];
 
         Integer row = 1;
-        Integer col = 4;
-        Integer value = 4;  //still not present in quadrant and should be valid
+        Integer col = 5;
+        Integer value = 6;  //still not present in quadrant and should be valid
         //                                      | quadrant is here                    |
         b[0][0] = 3; b[0][1] = 4;  b[0][2] = 8; b[0][3] = 5; b[0][4] = 2;  b[0][5] = 7; b[0][6] = 1; b[0][7] = 6;  b[0][8] = 9;
-        b[1][0] = 9; b[1][1] = 6;  b[1][2] = 2; b[1][3] = 1; b[1][4] = value;
+        b[1][0] = 9; b[1][1] = 6;  b[1][2] = 2; b[1][3] = 1; b[1][4] = 9;
         //                                      |_____________________________________|
 
         assertTrue(validationStrategy.isValidForQuadrant(b, row, col, value));
