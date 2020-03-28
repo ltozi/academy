@@ -3,6 +3,7 @@
  */
 package com.kaleyra.academy.sudoku.model.strategy.generation.impl;
 
+import com.kaleyra.academy.sudoku.Sudoku;
 import com.kaleyra.academy.sudoku.model.GameModel;
 import com.kaleyra.academy.sudoku.model.strategy.generation.NewGameStrategy;
 import com.kaleyra.academy.sudoku.model.strategy.validation.SudokuValidationStrategy;
@@ -30,7 +31,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
         int[][] matrix = new int[9][9];
 
         int[] matrixIndices = new int[2];
-        CellValueFinder2 cvf= new CellValueFinder2(matrix);
+        CellValueFinder3 cvf= new CellValueFinder3(matrix);
 
         boolean sense = true;
         int k = 0;
@@ -54,13 +55,13 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
 
         }while (k < GameModel.ROWS * GameModel.COLS);
 
-        cvf.print();
+        //cvf.print();
 
     }
 
 
 
-    public GameModel createModel() throws SudokuException { //non toccare camilo
+    public GameModel createModel() throws SudokuException, UnknownDifficultyLevelException { //non toccare camilo
         GameModel gameModel = new GameModel();
 
         int[][] matrix = gameModel.getData();
@@ -77,7 +78,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
         }
         */
         int[] matrixIndices = new int[2];
-        CellValueFinder2 cvf= new CellValueFinder2(matrix);
+        CellValueFinder3 cvf= new CellValueFinder3(matrix);
         boolean sense = true;
         int k = 0;
         do{
@@ -120,14 +121,12 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      *
      * @return
      */
-    public abstract GameModel setGameDifficulty(final GameModel model);
+    public abstract GameModel setGameDifficulty(final GameModel model) throws UnknownDifficultyLevelException;
 
     /**
      * @return a Set with all the number available
      */
 
-    // do camlilo
-    // queli da cui estrarreil random value
     public Set<Integer> allowedValues() {
         return new HashSet<>(); //TODO logic
     }
@@ -137,21 +136,15 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
 
-    // do camilo
     public Integer generateRandomValue(Set<Integer> allowedNumbers) { //argument from Set<Integer> allowedValues()
         return 0;
     }
 
     public class hashSet{ //make anonymous class instead ??
         public HashSet<Integer> hs = new HashSet<Integer>();
-//        public hashSet(){
-//            hs = new HashSet<Integer>();
-//            hs.add(0);
-//        }
-
     }
 
-    public class CellValueFinder2 {
+    public class CellValueFinder3 {
         private int[][] matrix;
 
         private HashSet<Integer> ALLOWED_VALUES = new HashSet<>();
@@ -160,7 +153,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
         //81 hash sets corresponding to each cell of the sudoku table
         private hashSet[] forbiddenElementsPerCell;// = new hashSet[GameModel.ROWS * GameModel.COLS];
 
-        CellValueFinder2(int[][] matrix) {
+        CellValueFinder3(int[][] matrix) {
             this.matrix = matrix;
             ALLOWED_VALUES.addAll(SudokuValidationStrategy.ALLOWED_VALUES);
 
@@ -174,28 +167,19 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
             int elementLinearIndex = validationStrategy2.matrixToLinearIndex(i,j,matrix[0].length);
             if(sense == false){ //arrived in negative sense, i.e. coming back to this cell
                 forbiddenElementsPerCell[elementLinearIndex].hs.add(matrix[i][j]);
-            }else{
-                //forbiddenElementsPerCell[elementLinearIndex].hs.add(0); //before calling clear it must contain some element
+            }else
                 forbiddenElementsPerCell[elementLinearIndex].hs.clear();
-                //forbiddenElementsPerCell[elementLinearIndex].hs.add(0); //before calling clear it must contain some element
-
-            }
 
             HashSet<Integer> rowOrColummnElementsExclusive  = validationStrategy2.getElementsInRowOrColumnExclusive(matrix, i, j);
             HashSet<Integer> quadrantElementsExclusive = validationStrategy2.getElementsInQuadrantOfElementExclusive(matrix, i, j);
             HashSet<Integer> allNotAllowedValues = validationStrategy2.getUnion(rowOrColummnElementsExclusive, quadrantElementsExclusive);
 
-
-
             HashSet<Integer> possibleValues = validationStrategy2.getRelativeComplement(ALLOWED_VALUES, allNotAllowedValues );
             possibleValues.remove(0); // we don't want to set the cell with 0
             possibleValues.removeAll(forbiddenElementsPerCell[elementLinearIndex].hs);
 
-
             List<Integer> possibleValuesList = new ArrayList<>(possibleValues);
             Collections.shuffle(possibleValuesList);
-
-            //System.out.println("possible values are: " + possibleValuesList.toString());
 
             if (possibleValuesList.size() > 0 ){
                 matrix[i][j] = possibleValuesList.get(0);

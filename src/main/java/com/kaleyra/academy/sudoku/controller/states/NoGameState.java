@@ -9,6 +9,7 @@ import com.kaleyra.academy.sudoku.model.ClockManager;
 import com.kaleyra.academy.sudoku.model.GameModel;
 import com.kaleyra.academy.sudoku.model.strategy.generation.NewGameStrategy;
 import com.kaleyra.academy.sudoku.model.strategy.generation.GameStrategyFactory;
+import com.kaleyra.academy.sudoku.model.strategy.generation.impl.UnknownDifficultyLevelException;
 import com.kaleyra.academy.sudoku.ui.UIUtils;
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 import com.kaleyra.academy.sudoku.utils.Utils;
@@ -48,7 +49,7 @@ public class NoGameState extends GameState {
             //avvia l'orologio
             ClockManager.getInstance().start();
 
-        } catch (SudokuException e) {
+        } catch (SudokuException | UnknownDifficultyLevelException e) {
             Utils.showAlert("Impossibile iniziare un nuovo gioco");
         }
     }

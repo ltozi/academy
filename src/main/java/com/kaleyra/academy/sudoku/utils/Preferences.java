@@ -19,6 +19,7 @@ public class Preferences {
      * Mostra gli errori mentre si gioca
      */
     public static final String SHOW_ERRORS = "show.errors";
+    public static final String DIFFICULTY_LEVEL = "difficulty.level";
     /**
      * Mostra le guide. Evidenziano le celle dove non pu� essere
      * presente il numero evidenziato
