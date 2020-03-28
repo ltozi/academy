@@ -4,6 +4,9 @@ import com.kaleyra.academy.sudoku.model.strategy.validation.impl.DefaultValidati
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import static org.junit.Assert.*;
 
 public class DefaultValidationStrategyTest {
@@ -18,7 +21,6 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shouldBeValidRow() {
         int[][] b = new int[9][9];
-
         assertTrue(validationStrategy.isValidForRow(b, 0, 3, 2));
     }
 
@@ -178,6 +180,27 @@ public class DefaultValidationStrategyTest {
     }
 
     @Test
+    //    public int[][] getQuadrantMatrixOfElement(int[][] matrix, int i, int j){
+    public void getQuadrantMatrixOfElementTest(){
+        int[][] matrix ={{0,0,8,0,0,7,1,6,9},
+                         {9,6,0,0,0,8,7,0,0},
+                         {5,1,7,0,6,0,2,0,0},
+                         {0,0,0,3,5,0,0,0,0},
+                         {0,0,4,0,1,0,3,0,0},
+                         {0,0,0,0,9,2,0,0,0},
+                         {0,0,6,0,3,0,5,8,7},
+                         {0,0,3,6,0,0,0,1,2},
+                         {8,2,1,4,0,0,9,0,0}};
+
+        int[][] quadrantMatrix= new int[][]{{0,3,0},
+                                            {6,0,0},
+                                            {4,0,0}};
+
+        assertArrayEquals(quadrantMatrix, validationStrategy.getQuadrantMatrixOfElement(matrix,7,3));
+
+    }
+
+    @Test
     public void getRowTest(){
         int[][] matrix = new int[][]{{1,2,3,45},{4,5,6,21},{7,8,9,39}};
         int[] row = new int[]{4,5,6,21};
@@ -191,14 +214,128 @@ public class DefaultValidationStrategyTest {
     }
 
     @Test
+    public void getSubMatrixTest(){
+        int[][] matrix ={{0,0,8,0,0,7,1,6,9},
+                         {9,6,0,0,0,8,7,0,0},
+                         {5,1,7,0,6,0,2,0,0},
+                         {4,3,0,3,5,0,0,0,0},
+                         {6,8,4,0,1,0,3,0,0},
+                         {0,8,9,5,9,2,0,0,0},
+                         {0,0,6,0,3,0,5,8,7},
+                         {0,0,3,6,0,0,0,1,2},
+                         {8,2,1,4,0,0,9,0,0}};
+
+        int[][] subMatrix = new int[][]{{5,1,7,0},
+                                        {4,3,0,3},
+                                        {6,8,4,0},
+                                        {0,8,9,5}};
+
+        assertArrayEquals(subMatrix, validationStrategy.getSubMatrix(matrix,2,0,4,4));
+    }
+
+    @Test
+    //    public HashSet<Integer> toIntegerHashSet(int[][] matrix){
+    public void toIntegerHashSetTest(){
+        int[][] subMatrix = new int[][]{{5,1,7,0},
+                                        {4,3,0,3},
+                                        {6,8,4,0},
+                                        {0,8,9,5}};
+        HashSet<Integer> set = new HashSet<>(Arrays.asList(5,1,7,0,4,3,0,3,6,8,4,0,8,9,5));
+
+        assertEquals(set, validationStrategy.toIntegerHashSet(subMatrix));
+    }
+
+    @Test
+    public void getElementsInQuadrantOfElementTest(){
+        int[][] matrix ={{0,0,8,0,0,7,1,6,9},
+                         {9,6,0,0,0,8,7,0,0},
+                         {5,1,7,0,6,0,2,0,0},
+                         {4,3,0,3,5,0,0,0,0},
+                         {6,8,4,0,1,0,3,0,0},
+                         {0,8,9,5,9,2,0,0,0},
+                         {0,0,6,0,3,0,5,8,7},
+                         {0,0,3,6,0,0,0,1,2},
+                         {8,2,1,4,0,0,9,0,0}};
+
+        HashSet<Integer> set = new HashSet<>(Arrays.asList(3,5,0,0,1,0,5,9,2));//quadrant (1,1)
+        assertEquals(set, validationStrategy.getElementsInQuadrantOfElement(matrix,5,5));
+    }
+
+    @Test
+    public void getElementsInQuadrantOfElementTestTest(){
+        int[][] matrix ={{0,0,8,0,0,7,1,6,9},
+                {9,6,0,0,0,8,7,0,0},
+                {5,1,7,0,6,0,2,0,0},
+                {4,3,0,3,5,0,0,0,0},
+                {6,8,4,0,1,0,3,0,0},
+                {0,8,9,5,9,2,0,0,0},
+                {0,0,6,0,3,0,5,8,7},
+                {0,0,3,6,0,0,0,1,2},
+                {8,2,1,4,0,0,9,0,0}};
+
+        HashSet<Integer> set = new HashSet<>(Arrays.asList(3,5,0,0,1,0,5,2)); //remove the 9
+        assertEquals(set, validationStrategy.getElementsInQuadrantOfElementExclusive(matrix,5,4)); //quadrant (1,1)
+    }
+
+
+    @Test
     public void sumArrayTest(){
         int[] arr = new int[]{1,2,3};
         assertEquals(6,validationStrategy.sum(arr));
     }
     @Test
-    public void sumArrayMatrix(){
+    public void sumMatrixTest(){
         int[][] matrix = new int[][]{{12,2,3},{4,5,6},{7,8,9}};
         assertEquals(56,validationStrategy.sum(matrix));
+    }
+
+    @Test
+    public void getElementsInRowOrColumnTest(){
+        int[][] matrix = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        HashSet<Integer> rowAndColumn = validationStrategy.getElementsInOrAndColumn(matrix,1,2);
+        HashSet<Integer> union = new HashSet<>(Arrays.asList(4,5,3,6,9));
+        assertEquals(rowAndColumn,union);
+    }
+
+    @Test
+    public void getElementsInRowOrColumnExclusiveTest(){
+        int[][] matrix = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        HashSet<Integer> rowAndColumn = validationStrategy.getElementsInRowOrColumnExclusive(matrix,1,2);
+        HashSet<Integer> union = new HashSet<>(Arrays.asList(4,5,3,9));
+        assertEquals(rowAndColumn,union);
+    }
+
+    @Test
+    public void getRelativeComplementTest(){
+        HashSet<Integer> A = new HashSet<>(Arrays.asList(7,4,6,5,8,3,9));
+        HashSet<Integer> B = new HashSet<>(Arrays.asList(4,9,2,25));
+        HashSet<Integer> relativecomplementOfBinA = new HashSet<>(Arrays.asList(7,6,5,8,3));//quadrant (1,1)
+        assertEquals(relativecomplementOfBinA, validationStrategy.getRelativeComplement(A, B));
+    }
+
+    @Test
+    public void getUnionTest(){
+        HashSet<Integer> A = new HashSet<>(Arrays.asList(1,2,3,8,4,5,2));
+        HashSet<Integer> B = new HashSet<>(Arrays.asList(6,7,8,9,10,2));
+        HashSet<Integer> union = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
+        assertEquals(union, validationStrategy.getUnion(A, B));
+    }
+
+    @Test
+    public void linerToMatrixIndicesTest(){ //linear index, nof columns
+        int linearIndex = 15;
+        int matrixNofColumns = 9;
+        int[] matrixIndices = new int[]{1,6};
+        assertArrayEquals(matrixIndices, validationStrategy.linerToMatrixIndices(linearIndex, matrixNofColumns));
+
+    }
+
+    @Test
+    public void matrixToLinearIndexTest(){
+        int[] matrixIndices = new int[]{2,3};
+        int nofColumns = 9;
+        assertEquals(21, validationStrategy.matrixToLinearIndex(2,3,nofColumns));
+
     }
 
 }

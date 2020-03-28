@@ -3,8 +3,8 @@ package com.kaleyra.academy.sudoku.model.strategy.validation.impl;
 import com.kaleyra.academy.sudoku.model.GameModel;
 import com.kaleyra.academy.sudoku.model.strategy.validation.SudokuValidationStrategy;
 
-import java.sql.PreparedStatement;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
@@ -41,7 +41,6 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 quadrant[i][j] = matrix[3*quadrantOriginRow + i][3*quadrantOriginColumn + j];
-
 
         /*for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++)
@@ -115,6 +114,7 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
         return hasUniqueElementsArr(arr, nullElement);
     }
 
+    //quadrantI and quadrantJ are indices from 0 to 2 for the 9 quadrants of a sudoku table
     public int[][] getQuadrantMatrix(int[][] matrix, int quadrantI, int quadrantJ){
         int[][] quadrantMatrix = new int[3][3];
         for(int i=0; i<3; i++)
@@ -123,8 +123,24 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
         return quadrantMatrix;
     }
 
-    public int[] getRow(int[][] matrix, int i){
+    //get the quadrant matrix containing the element (i,j) of a sudoku table
+    public int[][] getQuadrantMatrixOfElement(int[][] matrix, int i, int j){
+        int quadrantI = i/3;
+        int quadrantJ = j/3;
+        return getQuadrantMatrix(matrix, quadrantI, quadrantJ);
+    }
 
+    //Converts an int[] matrix into a HashSet<Integer>
+    public HashSet<Integer> toIntegerHashSet(int[][] matrix){
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0; i< matrix.length; i++)
+            for (int x: matrix[i])
+                set.add(x);
+         return set;
+    }
+
+
+    public int[] getRow(int[][] matrix, int i){
         return matrix[i];
     }
 
@@ -133,8 +149,44 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
         for (int i=0; i< column.length; i++)
             column[i] = matrix[i][j];
         return column;
-
     }
+
+    //returns the submatrix of nofRows x nofColumns where elements (0,0) correspond to element (i,j) of 'matrix'
+    public int[][] getSubMatrix(int[][] matrix, int i, int j, int nofRows, int nofColumns){
+
+        int[][] subMatrix = new int[nofRows][nofColumns];
+
+        for(int m = 0; m < nofRows; m++)
+            for (int n = 0; n < nofColumns; n++)
+                subMatrix[m][n] = matrix[i+m][j+n];
+
+        return subMatrix;
+    }
+
+
+    //returns the elements in row i or column j of matrix 'matrix'
+    public HashSet<Integer> getElementsInOrAndColumn(int[][] matrix, int i, int j){
+
+        HashSet<Integer> set = new HashSet<>();
+        Integer row[] = Arrays.stream(getRow(matrix, i)).boxed().toArray( Integer[]::new);
+        Integer column[] = Arrays.stream(getColumn(matrix, j)).boxed().toArray( Integer[]::new);
+
+        set.addAll(Arrays.asList(row));
+        set.addAll(Arrays.asList(column));
+        return  set;
+    }
+
+    //returns a HashSet<Integer> containing the elements in the quadrant of a sudoku table containing element (i,j)
+    public HashSet<Integer> getElementsInQuadrantOfElement(int[][] matrix, int i, int j){
+        return toIntegerHashSet(getQuadrantMatrixOfElement(matrix, i, j));
+    }
+
+    //AQUI
+    //given two sets A and B, returns the complement A/B, i.e. all elements belonging to A but not to B.
+//    public HashSet<Integer> Complement (HashSet<Integer> setA, HashSet<Integer> setB){
+//
+//
+//    }
 
     public int sum(int[] arr){
         int sum = 0;
@@ -175,10 +227,49 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
                     return false;
             }
         }
-
        return true;
     }
 
 
+    public HashSet<Integer> getElementsInRowOrColumnExclusive(int[][] matrix, int i, int j) {
+        HashSet<Integer> set = getElementsInOrAndColumn(matrix, i, j);
+        set.remove(matrix[i][j]);
+        return set;
+    }
 
+
+    // returns all elements that belong to A but do not belong to B
+    // relative complement https://en.wikipedia.org/wiki/Complement_(set_theory)
+    public HashSet<Integer> getRelativeComplement(HashSet<Integer> A, HashSet<Integer> B) {
+        HashSet<Integer> Acopy = new HashSet<>();
+        Acopy.addAll(A);
+        Acopy.removeAll(B);
+        return Acopy;
+    }
+
+
+    public HashSet<Integer> getElementsInQuadrantOfElementExclusive(int[][] matrix, int i, int j) {
+        HashSet<Integer> set = getElementsInQuadrantOfElement(matrix, i, j);
+        set.remove(matrix[i][j]);
+        return set;
+    }
+
+    public HashSet<Integer> getUnion(HashSet<Integer> A, HashSet<Integer> B) {
+        HashSet<Integer> union = new HashSet<>();
+        union.addAll(A);
+        union.addAll(B);
+        return union;
+    }
+
+    public int[] linerToMatrixIndices(int linearIndex, int matrixNofColumns) {
+        int[] matrixIndices = new int[]{linearIndex/matrixNofColumns, linearIndex - matrixNofColumns*(linearIndex/matrixNofColumns)};
+        return matrixIndices;
+
+    }
+
+    public int matrixToLinearIndex(int i, int j, int nofColumns) {
+        return j+nofColumns*i;
+    }
 }
+
+//
