@@ -30,25 +30,30 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
 
         int[][] matrix = gameModel.getData();
 
-        for (int row = 0; row < matrix.length; row++)
+        for(int i = 0; i < matrix.length; i++) {
+            Set<Integer> alreadyUsedValues = new HashSet<>(); //Empty
+            for(int j = 0; j < matrix.length; j++) {
+                CellValueFinder valueFinder = new CellValueFinder(matrix, i, j, alreadyUsedValues).build();
+                matrix[i][j] = valueFinder.random;//new Random().nextInt(9 + 1);  // [0...9] [min = 0, max = 9] //valueFinder.random;
+                //row = valueFinder.row;
+                //col = valueFinder.col;
+            }
+        }
+  /*    for (int row = 0; row < matrix.length; row++)
         {
             Set<Integer> alreadyUsedValues = new HashSet<>(); //Empty
             for (Integer col = 0; col < matrix[row].length; col++)
             {
-                CellValueFinder valueFinder = new CellValueFinder(matrix, row, col, alreadyUsedValues)
-                        .build();
-                row = valueFinder.row;
-                col = valueFinder.col;
-                matrix[row][col] = valueFinder.random;
+
             }
-        }
+        }   */
 
         if( ! validationStrategy.isValidModel(matrix)) {
             throw new SudokuException("Wrong random model generation: " + "\n" + gameModel.toString());
         }
 
 
-        return setGameDifficulty(gameModel);
+        return gameModel;//setGameDifficulty(gameModel);
     }
 
     /**
@@ -63,7 +68,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Set<Integer> allowedValues() {
-        return new HashSet<>(); //TODO logic
+        return new HashSet<Integer>();
     }
 
     /**
@@ -73,7 +78,12 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      */
     public Integer generateRandomValue(Set<Integer> allowedNumbers) {
 
-        return 0;
+        return generateRandom();
+    }
+
+    private int generateRandom() {
+        Random rnd = new Random();
+        return  rnd.nextInt(9);
     }
 
     /**
@@ -105,7 +115,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
 
                     alreadyUsedValues.add(matrix[row][col]);
                     allowedNumbers.removeAll(alreadyUsedValues); //Exclude already used numbers
-                    matrix[row][col] = 0;//
+                    matrix[row][col] = 0;
                     random = generateRandomValue(allowedNumbers); //Generate
 
                     if(random == null) {
@@ -115,6 +125,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
                     }
                 }
             }
+
             while (! validationStrategy.isValidMove(matrix, row, col, random));
 
             return this;

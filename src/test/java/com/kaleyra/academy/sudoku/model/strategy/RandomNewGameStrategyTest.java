@@ -14,10 +14,10 @@ public class RandomNewGameStrategyTest {
     public void shouldGenerateRandomPuzzleOK() throws SudokuException {
 
         RandomNewGameStrategy strategy = new SimpleGenerationStrategy();
+
         GameModel model = strategy.createModel();
 
         int countAllEmpty = isModelEmpty(model);
-        System.out.println(model.toString());
 
         assertNotEquals("Random generation not working because all values results empty (0 values)",
                 GameModel.ROWS * GameModel.COLS, countAllEmpty);
@@ -28,10 +28,13 @@ public class RandomNewGameStrategyTest {
         int countAllEmpty = 0;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
-                if(data[i][j] == 0)
+                if(data[i][j] == 0) {
                     countAllEmpty++;
+                }
             }
         }
+
+        System.out.println(model.toString());
         return countAllEmpty;
     }
 
