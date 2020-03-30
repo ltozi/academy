@@ -147,7 +147,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
                 col--;
             else {
                 row--;
-                col = matrix.length; //Backtracking till correct solutions exists
+                col = matrix.length - 1; //Backtracking till correct solutions exists
             }
         }
     }
