@@ -9,10 +9,7 @@ import com.kaleyra.academy.sudoku.model.strategy.validation.SudokuValidationStra
 import com.kaleyra.academy.sudoku.model.strategy.validation.impl.DefaultValidationStrategy;
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Crea un gioco utilizzando numeri casuali
@@ -69,7 +66,6 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
             allowedValues.add(i);
         }
         return allowedValues;
-        //return new HashSet<>(); //TODO logic
     }
 
     /**
@@ -79,8 +75,17 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      */
     public Integer generateRandomValue(Set<Integer> allowedNumbers) {
         Iterator<Integer> iter = allowedNumbers.iterator();
-        while (iter.hasNext()) {
-            return iter.next();
+        ArrayList<Integer> allowedNumSet = new ArrayList<>();
+        Integer num;
+
+        for (int i = 0; i < 9; i++) {
+            allowedNumSet.add(iter.next());
+        }
+        
+        while (!allowedNumSet.isEmpty()) {
+            num = allowedNumSet.get((int) (Math.random() * allowedNumSet.size()));
+            allowedNumSet.remove(num);
+            return num;
         }
         return null;
     }
