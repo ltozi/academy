@@ -74,6 +74,9 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Integer generateRandomValue(Set<Integer> allowedNumbers) {
+        if(allowedNumbers.size() == 0)
+            return null;
+
         Iterator<Integer> iter = allowedNumbers.iterator();
         ArrayList<Integer> allowedNumSet = new ArrayList<>();
         Integer num;
@@ -87,6 +90,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
             allowedNumSet.remove(num);
             return num;
         }
+
         return null;
     }
 
