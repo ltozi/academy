@@ -11,6 +11,7 @@ import com.kaleyra.academy.sudoku.model.strategy.validation.impl.DefaultValidati
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Crea un gioco utilizzando numeri casuali
@@ -26,94 +27,28 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return un gioco generato casualmente
      */
 
-    public void printSudokuFullTable2(){
-
-        int[][] matrix = new int[9][9];
-
-        int[] matrixIndices = new int[2];
-        CellValueFinder3 cvf= new CellValueFinder3(matrix);
-
-        boolean sense = true;
-        int k = 0;
-        do{
-            if (k < 0 )
-                k = 0;
-            matrixIndices = validationStrategy2.linerToMatrixIndices(k, GameModel.COLS);
-            if (cvf.setCellValue(matrixIndices[0], matrixIndices[1],   sense  )) { // returns true if a valid value was found and set in the table successfully. False otherwise
-                //System.out.println("- matrix after elemnt "+k+" is set-");
-                //cvf.print();
-                k++;
-                //System.out.println();
-                if(sense == false)
-                    sense = true;
-            } else {
-                //System.out.println("- matrix after element "+k+" is set-");
-                //System.out.println("Impossible to find value for element " + k +". Going back one cell ...\n");
-                k--;
-                sense = false;
-            }
-
-        }while (k < GameModel.ROWS * GameModel.COLS);
-
-        //cvf.print();
-
-    }
-
-
-
-    public GameModel createModel() throws SudokuException, UnknownDifficultyLevelException { //non toccare camilo
+    public GameModel createModel() throws SudokuException, UnknownDifficultyLevelException {
         GameModel gameModel = new GameModel();
 
         int[][] matrix = gameModel.getData();
 
-        /*
-        for (int row = 0; row < matrix.length; row++) {
+        for (int row = 0; row < matrix.length; row++)
+        {
             Set<Integer> alreadyUsedValues = new HashSet<>(); //Empty
-            for (Integer col = 0; col < matrix[row].length; col++) {
+            for (Integer col = 0; col < matrix[row].length; col++)
+            {
                 CellValueFinder valueFinder = new CellValueFinder(matrix, row, col, alreadyUsedValues).build();
                 row = valueFinder.row;
                 col = valueFinder.col;
                 matrix[row][col] = valueFinder.random;
             }
         }
-        */
-        int[] matrixIndices = new int[2];
-        CellValueFinder3 cvf= new CellValueFinder3(matrix);
-        boolean sense = true;
-        int k = 0;
-        do{
-            if (k < 0 )
-                k = 0;
-            matrixIndices = validationStrategy2.linerToMatrixIndices(k, GameModel.COLS);
-            if (cvf.setCellValue(matrixIndices[0], matrixIndices[1],   sense  )) { // returns true if a valid value was found and set in the table successfully. False otherwise
-                //System.out.println("- matrix after elemnt "+k+" is set-");
-                //cvf.print();
-                k++;
-                //System.out.println();
-                if(sense == false)
-                    sense = true;
-            } else {
-                //System.out.println("- matrix after element "+k+" is set-");
-                //System.out.println("Impossible to find value for element " + k +". Going back one cell ...\n");
-                k--;
-                sense = false;
-            }
 
-        }while (k < GameModel.ROWS * GameModel.COLS);
-
-        //cvf.print();
-        matrix = cvf.getMatrix();
-
-
-        if (!validationStrategy.isValidModel(matrix)) {
+        if( ! validationStrategy.isValidModel(matrix)) {
             throw new SudokuException("Wrong random model generation: " + "\n" + gameModel.toString());
         }
 
         return setGameDifficulty(gameModel);
-        //return gameModel;
-
-
-
     }
 
     /**
@@ -123,12 +58,13 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      */
     public abstract GameModel setGameDifficulty(final GameModel model) throws UnknownDifficultyLevelException;
 
+
+
     /**
      * @return a Set with all the number available
      */
-
     public Set<Integer> allowedValues() {
-        return new HashSet<>(); //TODO logic
+        return new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9)); //TODO logic
     }
 
     /**
@@ -137,75 +73,19 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      */
 
     public Integer generateRandomValue(Set<Integer> allowedNumbers) { //argument from Set<Integer> allowedValues()
-        return 0;
+        if (allowedNumbers.size()==0)
+            return null;
+
+        Random rand = new Random();
+
+        List<Integer> allowedNumbersList = allowedNumbers.stream().collect(Collectors.toList());
+
+        int randomElement = allowedNumbersList.get(rand.nextInt(allowedNumbersList.size()));
+
+        allowedNumbers.remove(randomElement);
+
+        return randomElement;
     }
-
-    public class hashSet{ //make anonymous class instead ??
-        public HashSet<Integer> hs = new HashSet<Integer>();
-    }
-
-    public class CellValueFinder3 {
-        private int[][] matrix;
-
-        private HashSet<Integer> ALLOWED_VALUES = new HashSet<>();
-
-
-        //81 hash sets corresponding to each cell of the sudoku table
-        private hashSet[] forbiddenElementsPerCell;// = new hashSet[GameModel.ROWS * GameModel.COLS];
-
-        CellValueFinder3(int[][] matrix) {
-            this.matrix = matrix;
-            ALLOWED_VALUES.addAll(SudokuValidationStrategy.ALLOWED_VALUES);
-
-            forbiddenElementsPerCell = new hashSet[GameModel.ROWS * GameModel.COLS];
-            for (int i =0; i< forbiddenElementsPerCell.length; i++)
-                forbiddenElementsPerCell[i] = new hashSet();
-        }
-
-        // sense is the "sense" in which we arrived to the cell
-        public boolean setCellValue(int i, int j, boolean sense){  //true -> 1, false-> -1
-            int elementLinearIndex = validationStrategy2.matrixToLinearIndex(i,j,matrix[0].length);
-            if(sense == false){ //arrived in negative sense, i.e. coming back to this cell
-                forbiddenElementsPerCell[elementLinearIndex].hs.add(matrix[i][j]);
-            }else
-                forbiddenElementsPerCell[elementLinearIndex].hs.clear();
-
-            HashSet<Integer> rowOrColummnElementsExclusive  = validationStrategy2.getElementsInRowOrColumnExclusive(matrix, i, j);
-            HashSet<Integer> quadrantElementsExclusive = validationStrategy2.getElementsInQuadrantOfElementExclusive(matrix, i, j);
-            HashSet<Integer> allNotAllowedValues = validationStrategy2.getUnion(rowOrColummnElementsExclusive, quadrantElementsExclusive);
-
-            HashSet<Integer> possibleValues = validationStrategy2.getRelativeComplement(ALLOWED_VALUES, allNotAllowedValues );
-            possibleValues.remove(0); // we don't want to set the cell with 0
-            possibleValues.removeAll(forbiddenElementsPerCell[elementLinearIndex].hs);
-
-            List<Integer> possibleValuesList = new ArrayList<>(possibleValues);
-            Collections.shuffle(possibleValuesList);
-
-            if (possibleValuesList.size() > 0 ){
-                matrix[i][j] = possibleValuesList.get(0);
-                return true;
-            }
-
-            return false;
-        }
-
-        public void print(){
-            int i,j;
-            for ( i = 0 ; i < 9; i++){
-                for ( j = 0; j < 9; j++)
-                    System.out.print(matrix[i][j] + "  ");
-                System.out.println();
-            }
-        }
-
-        public int[][] getMatrix(){
-            return matrix;
-        }
-
-
-    }
-
-
 
 
 
@@ -230,7 +110,7 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
 
         CellValueFinder build() {
             do {
-                random = generateRandomValue(allowedNumbers);
+                random = generateRandomValue(allowedNumbers); // gives an Integer
 
                 if (random == null) {//This happens because elements are escaped
                     allowedNumbers = allowedValues();

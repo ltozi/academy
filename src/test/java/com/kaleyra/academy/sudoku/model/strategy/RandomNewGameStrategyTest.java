@@ -19,11 +19,4 @@ public class RandomNewGameStrategyTest {
         System.out.println(model.toString());
     }
 
-    @Test(timeout = 1000)
-    public void printSudokuFullTableTest(){
-        RandomNewGameStrategy strategy = new SimpleGenerationStrategy();
-
-        strategy.printSudokuFullTable2();
-    }
-
 }
