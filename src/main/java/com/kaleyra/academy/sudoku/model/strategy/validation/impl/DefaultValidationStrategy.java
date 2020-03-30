@@ -6,8 +6,8 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
 	@Override
 	public boolean isValidMove(int[][] model, int row, int col, int value) {
-		return isValidForColumn(model, row, col, model[row][col]) && isValidForRow(model, row, col, model[row][col])
-				&& isValidForQuadrant(model, row, col, model[row][col]);
+		return isValidForColumn(model, row, col, value) && isValidForRow(model, row, col, value)
+				&& isValidForQuadrant(model, row, col, value);
 	}
 
 	public boolean isValidForQuadrant(int[][] matrix, int rowForValue, int colForValue, int value) {
