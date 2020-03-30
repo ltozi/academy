@@ -11,6 +11,8 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
     @Override
     public boolean isValidMove(int[][] model, int row, int col, int value) {
+        if (value == 0)
+            return true;
         return  isValidForRow(model,row,col,value) && isValidForColumn(model,row,col,value) && isValidForQuadrant(model,row,col,value);
     }
 

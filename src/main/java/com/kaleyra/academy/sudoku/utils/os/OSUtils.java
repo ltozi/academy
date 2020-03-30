@@ -139,7 +139,6 @@ public class OSUtils {
          * Non fa nulla
          */
         public void init() {
-            System.out.println("Null strategy chosen at game satrtup.");
         }
 
         /**

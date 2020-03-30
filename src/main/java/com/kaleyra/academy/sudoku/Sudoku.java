@@ -85,6 +85,8 @@ public class Sudoku {
      * @param args
      */
     public static void main(String[] args) {
+        System.setProperty("com.kaleyra.academy.sudoku.model.NewGameStrategyManager.useFile", "true");
+
         Sudoku sodoku = Sudoku.getInstance();
         sodoku.show();
     }

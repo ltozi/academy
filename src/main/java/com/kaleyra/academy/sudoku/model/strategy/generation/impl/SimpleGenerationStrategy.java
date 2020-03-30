@@ -16,6 +16,7 @@ public class SimpleGenerationStrategy extends RandomNewGameStrategy {
         int[][] data = model.getData();
 
         Preferences preferences = Preferences.getInstance();
+//preferences.getProperty(Preferences.DIFFICULTY_LEVEL) // gives a string
 
         HashSet<Integer> difficultyLevelHS = new HashSet<>();
         switch (preferences.getProperty(Preferences.DIFFICULTY_LEVEL)){

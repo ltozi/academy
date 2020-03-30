@@ -20,6 +20,7 @@ public class Preferences {
      */
     public static final String SHOW_ERRORS = "show.errors";
     public static final String DIFFICULTY_LEVEL = "difficulty.level";
+    public static final String GAME_STRATEGY = "game.strategy";
     /**
      * Mostra le guide. Evidenziano le celle dove non pu� essere
      * presente il numero evidenziato
