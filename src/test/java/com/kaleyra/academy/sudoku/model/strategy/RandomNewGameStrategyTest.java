@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class RandomNewGameStrategyTest {
 
-    @Test(timeout = 2000)
+    @Test
     public void shouldGenerateRandomPuzzleOK() throws SudokuException {
 
         RandomNewGameStrategy strategy = new SimpleGenerationStrategy();
@@ -19,4 +19,12 @@ public class RandomNewGameStrategyTest {
     }
 
 
+    @Test
+    public void shouldGenerateRecursively() throws SudokuException {
+
+        RandomNewGameStrategy strategy = new RecursiveStrategy();
+        GameModel model = strategy.createModel();
+
+        System.out.println(model.toString());
+    }
 }

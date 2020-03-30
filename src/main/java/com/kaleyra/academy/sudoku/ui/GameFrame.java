@@ -182,7 +182,7 @@ public class GameFrame extends JFrame {
         //nuovo gioco
         JMenuItem newGameMenuItem = new JMenuItem("Nuovo");
         ks = KeyStroke.getKeyStroke('N',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         newGameMenuItem.setAccelerator(ks);
         newGameMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -193,7 +193,7 @@ public class GameFrame extends JFrame {
         //chiude il gioco corrente
         JMenuItem endGameMenuItem = new JMenuItem("Chiudi");
         ks = KeyStroke.getKeyStroke('W',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         endGameMenuItem.setAccelerator(ks);
         endGameMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -204,7 +204,7 @@ public class GameFrame extends JFrame {
         //mette in pausa il gioco
         JMenuItem pauseMenuItem = new JMenuItem("Pausa");
         ks = KeyStroke.getKeyStroke('U',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         pauseMenuItem.setAccelerator(ks);
         pauseMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -215,7 +215,7 @@ public class GameFrame extends JFrame {
         //riprende il gioco
         JMenuItem resumeMenuItem = new JMenuItem("Riprendi");
         ks = KeyStroke.getKeyStroke('R',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         resumeMenuItem.setAccelerator(ks);
         resumeMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -226,7 +226,7 @@ public class GameFrame extends JFrame {
         //salva il gioco
         JMenuItem saveMenuItem = new JMenuItem("Salva...");
         ks = KeyStroke.getKeyStroke('S',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         saveMenuItem.setAccelerator(ks);
         saveMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -237,8 +237,8 @@ public class GameFrame extends JFrame {
         //salva il gioco con nome
         JMenuItem saveAsMenuItem = new JMenuItem("Salva con nome...");
         ks = KeyStroke.getKeyStroke('S',
-                java.awt.event.InputEvent.META_MASK |
-                        java.awt.event.InputEvent.SHIFT_MASK);
+                InputEvent.META_MASK |
+                        InputEvent.SHIFT_MASK);
         saveAsMenuItem.setAccelerator(ks);
         saveAsMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -249,8 +249,8 @@ public class GameFrame extends JFrame {
         //salva il gioco
         JMenuItem importMenuItem = new JMenuItem("Importa...");
         ks = KeyStroke.getKeyStroke('I',
-                java.awt.event.InputEvent.META_MASK |
-                        java.awt.event.InputEvent.SHIFT_MASK);
+                InputEvent.META_MASK |
+                        InputEvent.SHIFT_MASK);
         importMenuItem.setAccelerator(ks);
         importMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -261,7 +261,7 @@ public class GameFrame extends JFrame {
         //annulla ultima mossa
         JMenuItem undoMenuItem = new JMenuItem("Annulla ultima mossa");
         ks = KeyStroke.getKeyStroke('Z',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         undoMenuItem.setAccelerator(ks);
         undoMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -272,8 +272,8 @@ public class GameFrame extends JFrame {
         //ripristina ultima mossa
         JMenuItem redoMenuItem = new JMenuItem("Ripristina ultima mossa");
         ks = KeyStroke.getKeyStroke('Z',
-                java.awt.event.InputEvent.META_MASK |
-                        java.awt.event.InputEvent.SHIFT_MASK);
+                InputEvent.META_MASK |
+                        InputEvent.SHIFT_MASK);
         redoMenuItem.setAccelerator(ks);
         redoMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -309,7 +309,7 @@ public class GameFrame extends JFrame {
         //contrai finestre (minimizza)
         JMenuItem contraiMenuItem = new JMenuItem("Contrai");
         ks = KeyStroke.getKeyStroke('M',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         contraiMenuItem.setAccelerator(ks);
         contraiMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -320,7 +320,7 @@ public class GameFrame extends JFrame {
         //dimensione di default
         JMenuItem dimensioneDefaultMenuItem = new JMenuItem("Dimensione default");
         ks = KeyStroke.getKeyStroke('D',
-                java.awt.event.InputEvent.META_MASK);
+                InputEvent.META_MASK);
         dimensioneDefaultMenuItem.setAccelerator(ks);
         dimensioneDefaultMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

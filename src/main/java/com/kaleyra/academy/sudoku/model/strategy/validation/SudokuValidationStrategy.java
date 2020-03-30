@@ -20,7 +20,12 @@ public interface SudokuValidationStrategy {
      * @param value
      * @return
      */
-    boolean isValidMove(int[][] model, int row, int col, int value);
+    default boolean isValidMove(int[][] model, Integer row, Integer col, Integer value) {
+        return isValidForQuadrant(model, row, col, value)
+                && isValidForRow(model, row, col, value)
+                && isValidForColumn(model, row, col, value);
+
+    }
 
 
     /**
@@ -36,7 +41,7 @@ public interface SudokuValidationStrategy {
      * @param value
      * @return
      */
-    boolean isValidForQuadrant(int[][] model, int row, int col, int value);
+    boolean isValidForQuadrant(int[][] model, Integer row, Integer col, Integer value);
 
     /**
      * Check if value is valid for the current row
@@ -65,7 +70,7 @@ public interface SudokuValidationStrategy {
      * @param value
      * @return
      */
-    boolean isValidForColumn(int[][] model, int row, int col, int value);
+    boolean isValidForColumn(int[][] model, Integer row, Integer col, Integer value);
 
 
     /**

@@ -63,7 +63,17 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Set<Integer> allowedValues() {
-        return new HashSet<>(); //TODO logic
+        HashSet<Integer> allowedNumbers = new HashSet<>();
+        allowedNumbers.add(1);
+        allowedNumbers.add(2);
+        allowedNumbers.add(3);
+        allowedNumbers.add(4);
+        allowedNumbers.add(5);
+        allowedNumbers.add(6);
+        allowedNumbers.add(7);
+        allowedNumbers.add(8);
+        allowedNumbers.add(9);
+        return allowedNumbers;
     }
 
     /**
@@ -72,7 +82,20 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Integer generateRandomValue(Set<Integer> allowedNumbers) {
-        return 0;
+        int size = allowedNumbers.size();
+
+        if (size == 0)
+            return null; //All number extracted
+
+        Random random = new Random();
+
+        Integer value;
+        do {
+            value = random.nextInt((9 - 1) + 1) + 1;
+        }
+        while ( ! allowedNumbers.remove(value));
+
+        return value;
     }
 
     /**

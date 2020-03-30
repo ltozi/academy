@@ -18,6 +18,8 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shouldBeValidRow() {
         int[][] b = new int[9][9];
+        b[0][0] = 1;
+        b[0][4] = 9;
 
         assertTrue(validationStrategy.isValidForRow(b, 0, 3, 2));
     }
@@ -25,6 +27,8 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shoudlLetPlaceZeroValueAsNoValue() {
         int[][] b = new int[9][9];
+        b[0][0] = 1;
+        b[0][4] = 9;
 
         assertTrue(validationStrategy.isValidForRow(b, 0, 3, 0));
 
@@ -33,6 +37,8 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shouldGiveErrorBecauseValueAlreadyInsideRow() {
         int[][] b = new int[9][9];
+        b[0][0] = 1;
+        b[0][4] = 9;
 
         assertFalse(validationStrategy.isValidForRow(b, 0,  3, 9));
     }
@@ -42,6 +48,9 @@ public class DefaultValidationStrategyTest {
     @Test
     public void shouldOverwriteExistingValue() {
         int[][] b = new int[9][9];
+        b[0][0] = 1; b[0][1] = 2;  b[0][2] = 3;
+        b[1][0] = 4; b[1][1] = 5;  b[1][2] = 6;
+        b[2][0] = 7; b[2][1] = 8;  b[2][2] = 9;
 
         Integer row = 3;
         Integer col = 0;

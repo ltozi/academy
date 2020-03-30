@@ -91,9 +91,48 @@ public class ModelDAO {
             //tempo trascorso contenuto nel file di gioco
             long elapsed = 0;
 
-            //TODO Step 1 logic to load file
+            do {
+                String line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                rowCount++;
 
-            logger.info("File " + filename + " caricato");
+                //controllo di versione
+                if (rowCount == 0) {
+                    if (!versionString.equals(line)) {
+                        throw new SudokuException(
+                                "La versione del file non è corretta (" + line + ")");
+                    }
+                    //salta la prima riga
+                    continue;
+                }
+                //ottiene il tempo trascorso
+                if (rowCount == 1) {
+                    elapsed = Long.parseLong(line);
+                    //salta la seconda riga
+                    continue;
+                }
+
+                //spezza una linea negli elementi riga, colonna e valore
+                StringTokenizer st = new StringTokenizer(line, ";");
+                String type = st.nextToken();
+                String rowString = st.nextToken();
+                String colString = st.nextToken();
+                String valueString = st.nextToken();
+
+                int row = Integer.parseInt(rowString);
+                int col = Integer.parseInt(colString);
+                Integer value = Integer.parseInt(valueString);
+
+                if (PREDEFINED_TYPE.equals(type)) {
+                    predefinedCells[row][col] = value;
+                } else {
+                    userCells[row][col] = value;
+                }
+            } while (true);
+
+            logger.fine("File " + filename + " caricato");
 
             //costruisce e ritorna il modello di gioco
             return new GameModel(predefinedCells, userCells, elapsed);

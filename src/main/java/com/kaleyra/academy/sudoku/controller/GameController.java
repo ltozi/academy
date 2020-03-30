@@ -211,7 +211,7 @@ public class GameController  implements SudokuEventPublisher {
         CommandManager.getInstance().invokeCommand(command);
 
         if(validationStrategy.isValidModel(model.getData())) {
-            this.publishOnWin(this);
+            publishOnWin(this);
         }
 
         //aggiorna la vista sulla history delle mosse
