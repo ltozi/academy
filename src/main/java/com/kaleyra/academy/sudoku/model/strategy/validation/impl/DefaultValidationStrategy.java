@@ -7,7 +7,11 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
     @Override
     public boolean isValidMove(int[][] model, int row, int col, int value) {
-        return false;
+        if (!isValidForQuadrant(model, row, col, value) || !isValidForRow(model, row, col, value) || !isValidForColumn(model, row, col, value)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -127,7 +131,7 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
         return isValid;
     }
 
-    private boolean getBoxAndCheckBox (int[][] matrix) {
+    protected boolean getBoxAndCheckBox (int[][] matrix) {
 
         boolean isValid = true;
 
@@ -147,7 +151,7 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
         return isValid;
     }
 
-    private boolean checkBox (int[][] subMatrix) {
+    public boolean checkBox (int[][] subMatrix) {
         boolean isValid = true;
 
         //INITIALIZE COUNTERS

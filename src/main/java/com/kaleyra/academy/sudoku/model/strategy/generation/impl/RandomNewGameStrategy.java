@@ -10,6 +10,7 @@ import com.kaleyra.academy.sudoku.model.strategy.validation.impl.DefaultValidati
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -63,7 +64,12 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Set<Integer> allowedValues() {
-        return new HashSet<>(); //TODO logic
+        HashSet<Integer> allowedValues = new HashSet<>();
+        for (int i = 1; i < 10; i++) {
+            allowedValues.add(i);
+        }
+        return allowedValues;
+        //return new HashSet<>(); //TODO logic
     }
 
     /**
@@ -72,7 +78,11 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Integer generateRandomValue(Set<Integer> allowedNumbers) {
-        return 0;
+        Iterator<Integer> iter = allowedNumbers.iterator();
+        while (iter.hasNext()) {
+            return iter.next();
+        }
+        return null;
     }
 
     /**
