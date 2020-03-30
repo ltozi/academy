@@ -19,7 +19,7 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
      * @param value
      * @return
      */
-    public boolean isValidForQuadrant(int[][] matrix, Integer rowForValue, Integer colForValue, Integer value) {
+    public boolean isValidForQuadrant(int[][] matrix, Integer rowForValue, Integer colForValue, int value) {
         if (doPrevalidation(value)) return true;
 
         /*
@@ -69,7 +69,7 @@ public class DefaultValidationStrategy implements SudokuValidationStrategy {
 
 
 
-    public boolean isValidForColumn(int[][] matrix, Integer rowForValue, Integer colForValue, Integer value) {
+    public boolean isValidForColumn(int[][] matrix, Integer rowForValue, Integer colForValue, int value) {
         if (doPrevalidation(value)) return true;
 
         for (int row = 0; row < matrix.length; row++) {
