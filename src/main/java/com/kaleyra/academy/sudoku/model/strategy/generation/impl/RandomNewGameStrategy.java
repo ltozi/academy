@@ -30,30 +30,22 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
 
         int[][] matrix = gameModel.getData();
 
-        for(int i = 0; i < matrix.length; i++) {
+        for(int row = 0; row < matrix.length; row++) {
             Set<Integer> alreadyUsedValues = new HashSet<>(); //Empty
-            for(int j = 0; j < matrix.length; j++) {
-                CellValueFinder valueFinder = new CellValueFinder(matrix, i, j, alreadyUsedValues).build();
-                matrix[i][j] = valueFinder.random;//new Random().nextInt(9 + 1);  // [0...9] [min = 0, max = 9] //valueFinder.random;
-                //row = valueFinder.row;
-                //col = valueFinder.col;
+            for(int col = 0; col < matrix[row].length; col++) {
+                CellValueFinder valueFinder = new CellValueFinder(matrix, row, col, alreadyUsedValues).build();
+
+                row = valueFinder.row;
+                col = valueFinder.col;
+                matrix[row][col] = valueFinder.random;
             }
         }
-  /*    for (int row = 0; row < matrix.length; row++)
-        {
-            Set<Integer> alreadyUsedValues = new HashSet<>(); //Empty
-            for (Integer col = 0; col < matrix[row].length; col++)
-            {
-
-            }
-        }   */
 
         if( ! validationStrategy.isValidModel(matrix)) {
             throw new SudokuException("Wrong random model generation: " + "\n" + gameModel.toString());
         }
 
-
-        return gameModel;//setGameDifficulty(gameModel);
+        return setGameDifficulty(gameModel);
     }
 
     /**
@@ -68,7 +60,17 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Set<Integer> allowedValues() {
-        return new HashSet<Integer>();
+        HashSet<Integer> allowedNumbers = new HashSet<>();
+        allowedNumbers.add(1);
+        allowedNumbers.add(2);
+        allowedNumbers.add(3);
+        allowedNumbers.add(4);
+        allowedNumbers.add(5);
+        allowedNumbers.add(6);
+        allowedNumbers.add(7);
+        allowedNumbers.add(8);
+        allowedNumbers.add(9);
+        return allowedNumbers;
     }
 
     /**
@@ -77,14 +79,23 @@ public abstract class RandomNewGameStrategy implements NewGameStrategy {
      * @return a Set with all the number available
      */
     public Integer generateRandomValue(Set<Integer> allowedNumbers) {
+        int size = allowedNumbers.size();
 
-        return generateRandom();
+        if (size == 0)
+            return null; //All number extracted
+
+        Random random = new Random();
+
+        Integer value;
+        do {
+            value = random.nextInt((9 - 1) + 1) + 1;
+        }
+        while ( ! allowedNumbers.remove(value));
+
+        return value;
     }
 
-    private int generateRandom() {
-        Random rnd = new Random();
-        return  rnd.nextInt(9);
-    }
+
 
     /**
      * A helper class that encapsulate logic to find a dynamic value for each cell
