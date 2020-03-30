@@ -5,10 +5,8 @@ package com.kaleyra.academy.sudoku.model;
 
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -92,6 +90,19 @@ public class ModelDAO {
             long elapsed = 0;
 
             //TODO Step 1 logic to load file
+            Scanner scanner = new Scanner(new File(filename)); //creo un file, creo uno scanner e passo il file allo scanner
+            scanner.next(); //salta riga
+            scanner.next();
+            String s = " ";
+            while(scanner.hasNextLine()) //cicla finche' ci sono righe da leggere
+            {
+                s = scanner.next(); //salvo dentro la stringa la linea che sto leggendo
+                String a[] = s.split(";", 4); //crea un vettore di 4 celle e divide
+                int row = Integer.parseInt(a[1]);
+                int column = Integer.parseInt(a[2]);
+                int value = Integer.parseInt(a[3]);
+                predefinedCells[row][column] = value;
+            }
 
             logger.info("File " + filename + " caricato");
 
