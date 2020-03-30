@@ -2,29 +2,57 @@ package com.kaleyra.academy.sudoku.model.strategy;
 
 import com.kaleyra.academy.sudoku.model.GameModel;
 import com.kaleyra.academy.sudoku.model.strategy.generation.impl.RandomNewGameStrategy;
-import com.kaleyra.academy.sudoku.model.strategy.generation.impl.RecursiveStrategy;
 import com.kaleyra.academy.sudoku.model.strategy.generation.impl.SimpleGenerationStrategy;
 import com.kaleyra.academy.sudoku.utils.SudokuException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Set;
+
 public class RandomNewGameStrategyTest {
 
-    @Test
-    public void shouldGenerateRandomPuzzleOK() throws SudokuException {
+	@Test(timeout = 2000)
+	public void shouldGenerateRandomPuzzleOK() throws SudokuException {
 
-        RandomNewGameStrategy strategy = new SimpleGenerationStrategy();
-        GameModel model = strategy.createModel();
+		RandomNewGameStrategy strategy = new SimpleGenerationStrategy();
+		GameModel model = strategy.createModel();
 
-        System.out.println(model.toString());
-    }
+		int countAllEmpty = isModelEmpty(model);
+		System.out.println(model.toString());
 
+		assertNotEquals("Random generation not working because all values results empty (0 values)",
+				GameModel.ROWS * GameModel.COLS, countAllEmpty);
+	}
 
-    @Test
-    public void shouldGenerateRecursively() throws SudokuException {
+	private int isModelEmpty(GameModel model) {
+		int[][] data = model.getData();
+		int countAllEmpty = 0;
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data[i].length; j++) {
+				if (data[i][j] == 0)
+					countAllEmpty++;
+			}
+		}
+		return countAllEmpty;
+	}
 
-        RandomNewGameStrategy strategy = new RecursiveStrategy();
-        GameModel model = strategy.createModel();
+	@Test
+	public void testGenerateRandomValue() {
+		SimpleGenerationStrategy sgs = new SimpleGenerationStrategy();
+		Set<Integer> set = sgs.allowedValues();
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < 9; i++)
+			list.add(sgs.generateRandomValue(set));
 
-        System.out.println(model.toString());
-    }
+		assertEquals(0, set.size());
+		assertEquals(9, list.size());
+		for (int i = 1; i <= 9; i++)
+			assertTrue(list.contains(i));
+	}
+
 }
